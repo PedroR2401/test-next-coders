@@ -4,12 +4,12 @@ namespace Gerenciador_de_tarefas.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class HelloWorldController : ControllerBase
+    public class TarefasController : ControllerBase
     {
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok("Hello, World!");
+            return Ok("Tarefa blablabla");
         }
     }
 }
