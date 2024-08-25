@@ -1,13 +1,21 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace contexts
+
+public class gerenciadorDbContext : DbContext
 {
 
-    public class gerenciadorDbContext : DbContext
+    public DbSet<Tarefa> Tarefas { get; set; }
+
+    public gerenciadorDbContext(DbContextOptions<gerenciadorDbContext> options)
+            : base(options)
     {
 
-        // public DbSet<TaskItem> Tarefa { get; set;}
+    }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Tarefa>()
+            .Property(t => t.Status)
+            .HasConversion<string>();
 
     }
-
 }
