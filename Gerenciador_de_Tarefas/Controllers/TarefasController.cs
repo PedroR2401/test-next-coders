@@ -19,7 +19,7 @@ namespace Gerenciador_de_tarefas.Controllers
         }
 
         // Rota para adicionar tarefa
-        [HttpPost]
+        [HttpPost("CriarTarefa")]
         public async Task<IActionResult> Create([FromBody] TarefaRequest request)
         {
             if (request == null)
@@ -64,7 +64,7 @@ namespace Gerenciador_de_tarefas.Controllers
         // Fim da rota de adicionar tarefa
 
         // Rota para trazer todas as tarefas
-        [HttpGet]
+        [HttpGet("MostrarTarefas")]
         public async Task<IActionResult> GetAll()
         {
             var tarefas = await _contexto.Tarefas.ToListAsync();
@@ -82,14 +82,32 @@ namespace Gerenciador_de_tarefas.Controllers
         }
         // Fim da rota para trazer todas as tarefas
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Atualizar(int id, [FromBody] TarefaRequest)
+        [HttpPut("Atualizar/{id}")]
+        public async Task<IActionResult> Atualizar(int id, [FromBody] TarefaRequest request)
         {
             // Verificar se a tarefa existe, senão retornar não encontrada
             var tarefaExistente = await _contexto.Tarefas.FindAsync(id);
+            if(tarefaExistente == null)
+            {
+                return NotFound(new { mensagem = "Essa tarefa não foi encontrada"});
+
+            }
+
+            tarefaExistente.Titulo = request.Titulo;
+            tarefaExistente.Descricao = request.Descricao;
+            tarefaExistente.Status = request.Status;
+            tarefaExistente.DataConclusao = request.DataConclusao;
 
 
-
+            try
+            {
+                await _contexto.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { mensagem = "Erro ao atualizar a tarefa.", detalhe = ex.Message });
+            }
+            return NoContent();
         }
     }
 }
