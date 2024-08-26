@@ -9,12 +9,12 @@ namespace Gerenciador_de_Tarefas.httpResponse
 
         public string Descricao { get; set; }
 
-        public required StatusTarefa Status {get; set;}
+        public required StatusTarefa Status { get; set; }
 
-        public required DateTime DataCriacao {get; set;}
+        public required DateTime DataCriacao { get; set; }
 
-        public DateTime DataConclusao {get; set;}
-        
+        public DateTime DataConclusao { get; set; }
+
     }
 
 }
